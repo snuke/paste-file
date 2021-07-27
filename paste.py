@@ -39,12 +39,13 @@ def show():
   l = db.hgetall(z)
   print('registered files: {}'.format(len(l)))
   for key,val in l.items():
-    print('{}: {}'.format(key,val))
+    print('{}: {}'.format(key.decode(),val.decode()))
 
 def paste(key):
   path = db.hget(z, key)
   if path is None:
     error('key not found')
+  path = path.decode()
   if os.path.exists(os.path.basename(path)):
     error('this file already exists')
   shutil.copy(path, '.')
